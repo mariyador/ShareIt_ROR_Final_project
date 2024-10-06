@@ -1,0 +1,45 @@
+<div class="container my-4">
+  <style>
+    .img-height {
+      max-height: 33.33vh; /* Set to one-third of the viewport height */
+      width: auto; /* Maintain aspect ratio */
+      height: auto; /* Maintain aspect ratio */
+      object-fit: cover; /* Ensure the image covers the area without distortion */
+    }
+
+    .container {
+      margin-top: 20px; /* Adjust top margin as needed */
+    }
+
+    .item-details {
+      margin-top: 20px; /* Space between image and details */
+    }
+  </style>
+
+
+  <% if @item.image.attached? %>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center">
+        <%= image_tag @item.image, class: 'img-fluid img-height' %> <!-- Responsive image -->
+      </div>
+    </div>
+  <% else %>
+    <p class="text-center">No image available</p>
+  <% end %>
+
+
+  <div class="item-details">
+  <h1><%= @item.title %></h1>
+
+    <p><strong>Description:</strong> <%= @item.body %></p>
+    <p><strong>Condition:</strong> <%= @item.condition.humanize %></p>
+    <p><strong>Pick Up Location:</strong> <%= @item.location %></p>
+  </div>
+
+  <hr>
+  <%= link_to "Edit item", edit_item_path(@item), :class => 'btn btn-warning' %>
+  <%= link_to "Delete item", item_path(@item), 
+   method: :delete, 
+   data: { confirm: "Are you sure?" }, 
+   class: 'btn btn-danger' %>
+</div>

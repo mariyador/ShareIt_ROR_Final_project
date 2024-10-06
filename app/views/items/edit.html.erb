@@ -1,0 +1,33 @@
+<h2 class="text-center my-4">Edit Item</h2>
+<%= form_for @item, url: item_path(@item), method: :patch, html: { multipart: true, class: "form-horizontal" } do |f| %>
+  <div class="container">
+    <div class="mb-3">
+      <%= f.label :title, "Item Name", class: "form-label" %>
+      <%= f.text_field :title, class: "form-control", placeholder: "Enter the item name" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :body, "Description", class: "form-label" %>
+      <%= f.text_area :body, class: "form-control", rows: 4, placeholder: "Describe the item" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :condition, "Condition", class: "form-label" %>
+      <%= f.select :condition, options_for_select([["New", "new"], ["Good", "good"], ["Used", "used"], ["Needs Repair", "needs_repair"]]), { include_blank: true }, { class: "form-select" } %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :location, "Pick Up Location", class: "form-label" %>
+      <%= f.text_field :location, class: "form-control", placeholder: "Enter the pick-up location" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :image, "Upload Image", class: "form-label" %>
+      <%= f.file_field :image, id: "item_image", class: "form-control" %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "Give Away Item", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
