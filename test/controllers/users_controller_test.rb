@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
@@ -7,8 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create user" do
-    post users_url, params: { user: { first_name: 'John', last_name: 'Doe', email: 'john@example.com', password: 'password123' } }  # Correct helper for create action
+    post users_url, params: { user: { first_name: "John", last_name: "Doe", email: "john@example.com", password: "password123" } }  # Correct helper for create action
     assert_response :redirect
   end
 end
-
