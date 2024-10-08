@@ -2,7 +2,7 @@
   <a href='#' class='btn custom-btn me-2 mt-3'>
     Welcome, <%= current_user.first_name %>
   </a>
-<%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn custom-btn me-2 mt-3' %>
+<%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'btn custom-btn me-2 mt-3' %>
   <%= link_to 'Edit profile', edit_user_registration_path, class: 'btn custom-btn me-2 mt-3' %>
 <% else %>
   <%= link_to 'Login', new_user_session_path, class: 'btn custom-btn me-2 mt-3' %>

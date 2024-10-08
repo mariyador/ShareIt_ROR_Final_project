@@ -19,4 +19,6 @@ Rails.application.routes.draw do
 
   # Resources
   resources :items
+  resources :users, only: [:new, :create]
+
 end
