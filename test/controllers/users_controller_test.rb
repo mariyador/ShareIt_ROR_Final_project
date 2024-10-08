@@ -1,6 +1,6 @@
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = users(:one) # Assuming you have a fixture for users
+    @user = users(:one)
   end
 
   test "should create user" do
