@@ -1,6 +1,11 @@
 class ItemsController < ApplicationController
-    http_basic_authenticate_with name: "", password: "", except: [ :index ]
-    before_action :find_item, only: [ :show, :edit, :update, :destroy ]
+  http_basic_authenticate_with(
+    name: ENV['BASIC_AUTH_NAME'],
+    password: ENV['BASIC_AUTH_PASSWORD'],
+    except: [:index]
+  )
+  before_action :find_item, only: [:show, :edit, :update, :destroy]
+
 
     def index
       @items = Item.all
