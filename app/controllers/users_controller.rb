@@ -10,6 +10,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Successfully registered."
       redirect_to root_path
     else
+      puts @user.errors.full_messages
       render :new
     end
   end

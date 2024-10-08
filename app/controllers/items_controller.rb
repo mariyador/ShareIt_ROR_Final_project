@@ -1,10 +1,6 @@
 class ItemsController < ApplicationController
-  http_basic_authenticate_with(
-    name: ENV['BASIC_AUTH_NAME'],
-    password: ENV['BASIC_AUTH_PASSWORD'],
-    except: [:index]
-  )
-  before_action :find_item, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :find_item, only: [ :show, :edit, :update, :destroy ]
 
 
     def index
@@ -23,6 +19,7 @@ class ItemsController < ApplicationController
 
     def create
       @item = Item.new(item_params)
+      @item.user_id = current_user.id
       if @item.save
         redirect_to @item, notice: "Item was successfully created."
       else

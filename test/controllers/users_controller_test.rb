@@ -1,13 +1,23 @@
-require "test_helper"
-
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  test "should get new" do
-    get new_user_url  # Correct helper for new action
-    assert_response :success
+  def setup
+    @user = users(:one) # Assuming you have a fixture for users
   end
 
   test "should create user" do
-    post users_url, params: { user: { first_name: "John", last_name: "Doe", email: "john@example.com", password: "password123" } }  # Correct helper for create action
-    assert_response :redirect
+    assert_difference("User.count", 1) do
+      post users_url, params: { user: {
+        first_name: "John",
+        last_name: "Doe",
+        email: "john@example.com",
+        password: "password",
+        password_confirmation: "password"
+      } }
+    end
+    assert_redirected_to root_path
+  end
+
+  test "should get new" do
+    get new_user_url
+    assert_response :success
   end
 end
