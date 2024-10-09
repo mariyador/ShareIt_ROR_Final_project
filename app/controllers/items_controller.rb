@@ -1,10 +1,14 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :my_items]
   before_action :find_item, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.all
+  end
+
+  def my_items
+    @items = current_user.items
   end
 
   def new
