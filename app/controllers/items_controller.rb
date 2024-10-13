@@ -4,7 +4,13 @@ class ItemsController < ApplicationController
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
-    @items = Item.all
+    def index
+      if params[:search].present?
+        @items = Item.where('title LIKE ?', "%#{params[:search]}%")
+      else
+        @items = Item.all
+      end
+    end
   end
 
   def my_items
