@@ -21,7 +21,13 @@ Rails.application.routes.draw do
   resources :items do
     collection do
       get "my_items", to: "items#my_items"
+      get "reserved_items", to: "items#reserved_items" 
+    end
+    member do
+      post "reserve"
+      delete :unreserve
     end
   end
-  resources :users, only: [ :new, :create ]
+
+  resources :users, only: [:new, :create]
 end
