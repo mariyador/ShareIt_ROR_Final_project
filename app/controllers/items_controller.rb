@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :my_items, :reserve]
-  before_action :find_item, only: [:show, :edit, :update, :destroy, :reserve]
-  before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy, :my_items, :reserve ]
+  before_action :find_item, only: [ :show, :edit, :update, :destroy, :reserve ]
+  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def index
     if params[:search].present?
@@ -54,27 +54,27 @@ class ItemsController < ApplicationController
 
   def reserve
     @item = Item.find(params[:id])
-  
+
     if @item.user_id != current_user.id
       if @item.reserved_by.nil?
         @item.update(reserved_by: current_user.id)
-        redirect_to reserved_items_items_path, notice: 'Item successfully reserved.'
+        redirect_to reserved_items_items_path, notice: "Item successfully reserved."
       else
-        redirect_to item_path(@item), alert: 'Item is already reserved by another user.'
+        redirect_to item_path(@item), alert: "Item is already reserved by another user."
       end
     else
-      redirect_to item_path(@item), alert: 'You cannot reserve your own item.'
+      redirect_to item_path(@item), alert: "You cannot reserve your own item."
     end
   end
 
   def unreserve
     @item = Item.find(params[:id])
-    
+
     if @item.reserved_by == current_user.id
       @item.update(reserved_by: nil)
-      redirect_to reserved_items_items_path, notice: 'Reservation canceled successfully.'
+      redirect_to reserved_items_items_path, notice: "Reservation canceled successfully."
     else
-      redirect_to reserved_items_items_path, alert: 'You cannot cancel a reservation that is not yours.'
+      redirect_to reserved_items_items_path, alert: "You cannot cancel a reservation that is not yours."
     end
   end
 
