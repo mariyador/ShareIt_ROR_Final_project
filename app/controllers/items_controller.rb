@@ -53,7 +53,7 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:title, :body, :condition, :location, :image)
+    params.require(:item).permit(:title, :body, :condition, :location, :image, :user_id, :reserved, :reserved_by, :reference_number, :category, :custom_category)
   end
 
   def authorize_user!
