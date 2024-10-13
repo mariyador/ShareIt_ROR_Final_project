@@ -1,12 +1,12 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :my_items]
-  before_action :find_item, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy, :my_items ]
+  before_action :find_item, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def index
     def index
       if params[:search].present?
-        @items = Item.where('title LIKE ?', "%#{params[:search]}%")
+        @items = Item.where("title LIKE ?", "%#{params[:search]}%")
       else
         @items = Item.all
       end

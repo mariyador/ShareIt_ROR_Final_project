@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   # Resources
   resources :items do
     collection do
-      get 'my_items', to: 'items#my_items'
+      get "my_items", to: "items#my_items"
     end
-  end 
+  end
   resources :users, only: [ :new, :create ]
 end

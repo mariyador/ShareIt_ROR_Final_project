@@ -13,7 +13,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         password_confirmation: "password"
       } }
     end
-    assert_redirected_to root_path
+    assert_redirected_to my_items_items_path
   end
 
   test "should get new" do
