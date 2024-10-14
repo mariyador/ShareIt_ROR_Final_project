@@ -1,7 +1,6 @@
 <div class="container py-5">
   <h1>All items:</h1>
 
-  <!-- Форма поиска -->
   <div class="mb-4">
     <%= form_with(url: items_path, method: :get, local: true) do |f| %>
       <div class="input-group">
@@ -28,15 +27,16 @@
               <h3 class="card-title"><%= item.title %></h3>
               <p class="card-text"><%= item.location %></p>
               <div class="d-flex justify-content-end">
-              <div class="btn-group">
-              <%= link_to "View", item_path(item), class: "btn btn-sm btn-outline-secondary" %>
-              <% if item.reserved_by.nil? %>
-                <%= link_to "Reserve", reserve_item_path(item), method: :post, class: "btn btn-sm btn-outline-secondary" %>
-              <% else %>
-                <button class="btn btn-sm btn-outline-secondary" disabled>Reserved</button>
-              <% end %>
-            </div>
-            
+                <div class="btn-group">
+                  <%= link_to "View", item_path(item), class: "btn btn-sm btn-outline-secondary" %>
+                  <% if item.reserved_by.nil? %>
+                    <%= link_to "Reserve", reserve_item_path(item), method: :post, class: "btn btn-sm btn-success" %>
+                  <% elsif current_user && item.reserved_by == current_user.id %>
+                    <%= link_to "Cancel Reservation", unreserve_item_path(item), method: :delete, data: { confirm: "Are you sure you want to cancel the reservation?" }, class: "btn btn-sm btn-outline-danger" %>
+                  <% else %>
+                    <button class="btn btn-sm btn-outline-secondary" disabled>Reserved</button>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>

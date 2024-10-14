@@ -88,7 +88,7 @@ class ItemsController < ApplicationController
   end
 
   def authorize_user!
-    unless @item.user_id == current_user.id
+    unless @item.user_id == current_user&.id
       redirect_to items_path, alert: "You are not authorized to perform this action."
     end
   end
