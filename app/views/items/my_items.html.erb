@@ -29,8 +29,11 @@
               <div class="d-flex justify-content-end">
                 <div class="btn-group">
                   <%= link_to "View", item_path(item), class: "btn btn-sm btn-outline-secondary" %>
-                  <%= link_to "Delete", item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-danger" %>
-                </div>
+               <% if item.reserved_by.nil? %>
+                    <%= link_to "Reserve", reserve_item_path(item), method: :post, class: "btn btn-sm btn-success" %>
+                  <% else %>
+                    <button class="btn btn-sm btn-outline-secondary" disabled>Reserved</button>
+                  <% end %>                </div>
               </div>
             </div>
           </div>

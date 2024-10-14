@@ -93,6 +93,7 @@ class ItemsController < ApplicationController
 
   def find_item
     @item = Item.find(params[:id])
+    @reserved_user = User.find_by(id: @item.reserved_by) if @item.reserved_by.present?
   rescue ActiveRecord::RecordNotFound
     redirect_to items_path, alert: "Item not found."
   end
