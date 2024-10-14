@@ -38,8 +38,8 @@
 
     <p><strong>Description:</strong> <%= @item.body %></p>
     <p><strong>Condition:</strong> <%= @item.condition.humanize %></p>
-    <p><strong>Pick Up Location:</strong> <%= @item.location %></p>
-    <p><strong>Category:</strong> <%= @item.category.gsub('_', ' ').titleize %></p>
+    <p><strong>Pick Up Location:</strong> <%= @item.city %>, <%= @item.state %> <%= @item.zipcode %>
+  </p>    <p><strong>Category:</strong> <%= @item.category.gsub('_', ' ').titleize %></p>
   </div>
 
   <hr>
