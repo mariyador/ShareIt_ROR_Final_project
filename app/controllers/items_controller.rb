@@ -5,10 +5,20 @@ class ItemsController < ApplicationController
 
   def index
     @items = if params[:search].present?
-                Item.where("title LIKE ?", "%#{params[:search]}%").page(params[:page]).per(6)
+                Item.where("title LIKE ?", "%#{params[:search]}%")
               else
-                Item.all.page(params[:page]).per(6)
+                Item.all
               end
+  
+    # Sort items alphabetically if the sort parameter is present
+    if params[:sort] == 'newest'
+      @items = @items.order(created_at: :desc)  
+    elsif params[:sort] == 'alphabetical'
+      @items = @items.order(:title)  
+    end
+  
+    # Paginate the items
+    @items = @items.page(params[:page]).per(6)
   end
 
   def my_items
