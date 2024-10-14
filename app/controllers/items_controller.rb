@@ -1,14 +1,14 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy, :my_items, :reserve ]
-  before_action :find_item, only: [ :show, :edit, :update, :destroy, :reserve ]
-  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :my_items, :reserve, :unreserve]
+  before_action :find_item, only: [:show, :edit, :update, :destroy, :reserve, :unreserve]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
-    if params[:search].present?
-      @items = Item.where("title LIKE ?", "%#{params[:search]}%")
-    else
-      @items = Item.all
-    end
+    @items = if params[:search].present?
+               Item.where("title LIKE ?", "%#{params[:search]}%")
+             else
+               Item.all
+             end
   end
 
   def my_items
@@ -32,6 +32,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @item.user_id = current_user.id
+
     if @item.save
       redirect_to @item, notice: "Item was successfully created."
     else
@@ -53,8 +54,6 @@ class ItemsController < ApplicationController
   end
 
   def reserve
-    @item = Item.find(params[:id])
-
     if @item.user_id != current_user.id
       if @item.reserved_by.nil?
         @item.update(reserved_by: current_user.id)
@@ -68,8 +67,6 @@ class ItemsController < ApplicationController
   end
 
   def unreserve
-    @item = Item.find(params[:id])
-
     if @item.reserved_by == current_user.id
       @item.update(reserved_by: nil)
       redirect_to reserved_items_items_path, notice: "Reservation canceled successfully."
@@ -87,7 +84,7 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:title, :body, :condition, :location, :image, :user_id, :reserved, :reserved_by, :reference_number, :category, :custom_category)
+    params.require(:item).permit(:title, :body, :condition, :location, :image, :reference_number, :category, :custom_category)
   end
 
   def authorize_user!
