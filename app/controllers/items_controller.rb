@@ -5,10 +5,10 @@ class ItemsController < ApplicationController
 
   def index
     @items = if params[:search].present?
-               Item.where("title LIKE ?", "%#{params[:search]}%")
-             else
-               Item.all
-             end
+                Item.where("title LIKE ?", "%#{params[:search]}%").page(params[:page]).per(6)
+              else
+                Item.all.page(params[:page]).per(6)
+              end
   end
 
   def my_items

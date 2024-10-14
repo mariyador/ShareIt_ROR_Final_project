@@ -38,6 +38,9 @@ gem "dotenv-rails", groups: [ :development, :test ]
 
 gem 'letter_opener', group: :development
 
+gem 'kaminari'
+
+
 
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
