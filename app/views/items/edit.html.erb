@@ -2,6 +2,29 @@
 <%= form_for @item, url: item_path(@item), method: :patch, html: { multipart: true, class: "form-horizontal" } do |f| %>
   <div class="container">
     <div class="mb-3">
+      <%= f.label :category, "Category", class: "form-label" %>
+      <%= f.select :category, options_for_select(
+          [
+            ["Clothing", "clothing"],
+            ["Electronics", "electronics"],
+            ["Furniture", "furniture"],
+            ["Books", "books"],
+            ["Toys and Games", "toys_and_games"],
+            ["Home Goods", "home_goods"],
+            ["Sports and Outdoors", "sports_and_outdoors"],
+            ["Baby and Kids", "baby_and_kids"],
+            ["Art and Craft Supplies", "art_and_craft_supplies"],
+            ["Gardening Tools and Supplies", "gardening_tools"],
+            ["Health and Beauty", "health_and_beauty"],
+            ["Pet Supplies", "pet_supplies"],
+            ["Miscellaneous", "miscellaneous"],
+            ["Other", "other"]
+          ],
+          @item.category # Значение по умолчанию
+      ), { include_blank: true }, { class: "form-select" } %>
+    </div>
+
+    <div class="mb-3">
       <%= f.label :title, "Item Name", class: "form-label" %>
       <%= f.text_field :title, class: "form-control", placeholder: "Enter the item name" %>
     </div>
@@ -13,7 +36,10 @@
 
     <div class="mb-3">
       <%= f.label :condition, "Condition", class: "form-label" %>
-      <%= f.select :condition, options_for_select([["New", "new"], ["Good", "good"], ["Used", "used"], ["Needs Repair", "needs_repair"]]), { include_blank: true }, { class: "form-select" } %>
+      <%= f.select :condition, options_for_select(
+          [["New", "new"], ["Good", "good"], ["Used", "used"], ["Needs Repair", "needs_repair"]],
+          @item.condition # Значение по умолчанию
+      ), { include_blank: true }, { class: "form-select" } %>
     </div>
 
     <div class="mb-3">

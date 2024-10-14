@@ -18,6 +18,16 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Resources
-  resources :items
+  resources :items do
+    collection do
+      get "my_items", to: "items#my_items"
+      get "reserved_items", to: "items#reserved_items"
+    end
+    member do
+      post "reserve"
+      delete :unreserve
+    end
+  end
+
   resources :users, only: [ :new, :create ]
 end

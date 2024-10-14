@@ -3,17 +3,10 @@
 one:
   title: MyString
   body: MyText
-  price_per_day: 9.99
-  available_from: 2024-10-06
-  available_until: 2024-10-06
   image: MyString
   user: one
-
 two:
   title: MyString
   body: MyText
-  price_per_day: 9.99
-  available_from: 2024-10-06
-  available_until: 2024-10-06
   image: MyString
   user: one
