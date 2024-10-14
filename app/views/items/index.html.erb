@@ -1,15 +1,20 @@
 <div class="container py-5">
   <h1>All items:</h1>
 
-  <div class="mb-4 d-flex justify-content-between">
-    <%= form_with(url: items_path, method: :get, local: true) do |f| %>
+  <div class="d-flex justify-content-between mb-4">
+    <%= form_with url: items_path, method: :get, class: 'me-3' do |f| %>
       <div class="input-group">
-        <%= f.text_field :search, value: params[:search], class: "form-control", placeholder: "Search by title" %>
-        <button class="btn btn-outline-secondary" type="submit">Search</button>
+        <%= f.label :search, "Search by Title:", class: "input-group-text" %>
+        <%= f.text_field :search, class: "form-control", placeholder: "Enter item title" %>
+        
+        <%= f.label :zipcode, "Zipcode:", class: "input-group-text" %>
+        <%= f.text_field :zipcode, class: "form-control", placeholder: "Enter zipcode" %>
+    
+        <%= f.submit "Search", class: "btn btn-primary" %>
       </div>
     <% end %>
 
-    <div class="sorting-options ms-3">
+    <div class="sorting-options">
       <%= form_with(url: items_path, method: :get, local: true) do %>
         <div class="input-group">
           <%= select_tag :sort, 
@@ -17,6 +22,7 @@
               { prompt: 'Select sorting option', class: 'form-select', onchange: 'this.form.submit();' } 
           %>
           <%= hidden_field_tag :search, params[:search] %>
+          <%= hidden_field_tag :zipcode, params[:zipcode] %> <!-- Add this line to retain the zipcode in the sort request -->
         </div>
       <% end %>
     </div>
@@ -65,17 +71,17 @@
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li class="page-item <%= 'disabled' if @items.first_page? %>">
-          <%= link_to 'Previous', items_path(page: @items.prev_page, sort: params[:sort], search: params[:search]), class: 'page-link' %>
+          <%= link_to 'Previous', items_path(page: @items.prev_page, sort: params[:sort], search: params[:search], zipcode: params[:zipcode]), class: 'page-link' %>
         </li>
 
         <% (1..@items.total_pages).each do |page_number| %>
           <li class="page-item <%= 'active' if page_number == @items.current_page %>">
-            <%= link_to page_number, items_path(page: page_number, sort: params[:sort], search: params[:search]), class: 'page-link' %>
+            <%= link_to page_number, items_path(page: page_number, sort: params[:sort], search: params[:search], zipcode: params[:zipcode]), class: 'page-link' %>
           </li>
         <% end %>
 
         <li class="page-item <%= 'disabled' if @items.last_page? %>">
-          <%= link_to 'Next', items_path(page: @items.next_page, sort: params[:sort], search: params[:search]), class: 'page-link' %>
+          <%= link_to 'Next', items_path(page: @items.next_page, sort: params[:sort], search: params[:search], zipcode: params[:zipcode]), class: 'page-link' %>
         </li>
       </ul>
     </nav>

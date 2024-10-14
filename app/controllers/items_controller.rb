@@ -10,6 +10,10 @@ class ItemsController < ApplicationController
                 Item.all
     end
 
+    if params[:zipcode].present?
+      @items = @items.where(zipcode: params[:zipcode])
+    end
+
     # Sort items alphabetically if the sort parameter is present
     if params[:sort] == "newest"
       @items = @items.order(created_at: :desc)
