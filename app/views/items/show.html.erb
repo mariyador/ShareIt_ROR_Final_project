@@ -63,7 +63,7 @@
   <div class="reservation-info">
     <h3>Item Reserved By:</h3>
     <p><strong>Name:</strong> <%= @reserved_user.first_name %> <%= @reserved_user.last_name %></p>
-    <p><strong>Email:</strong> <%= @reserved_user.email %></p>
+    <p><strong>Email:</strong> <%= mail_to @reserved_user.email, @reserved_user.email %></p>
   </div>
 <% end %>
   <% end %>
@@ -73,7 +73,7 @@
     <div class="creator-info">
       <h3>Item Created By:</h3>
       <p><strong>Name:</strong> <%= @item.user.first_name %> <%= @item.user.last_name %></p>
-      <p><strong>Email:</strong> <%= @item.user.email %></p>
+      <p><strong>Email:</strong> <%= mail_to @item.user.email, @item.user.email %></p>
     </div>
   <% end %>
 </div>
