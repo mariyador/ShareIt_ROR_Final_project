@@ -36,9 +36,9 @@ gem "bootsnap", require: false
 
 gem "dotenv-rails", groups: [ :development, :test ]
 
-gem 'letter_opener', group: :development
+gem "letter_opener", group: :development
 
-gem 'kaminari'
+gem "kaminari"
 
 
 

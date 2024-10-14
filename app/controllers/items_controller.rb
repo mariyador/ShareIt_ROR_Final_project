@@ -1,22 +1,22 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :my_items, :reserve, :unreserve]
-  before_action :find_item, only: [:show, :edit, :update, :destroy, :reserve, :unreserve]
-  before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy, :my_items, :reserve, :unreserve, :show ] # Added :show here
+  before_action :find_item, only: [ :show, :edit, :update, :destroy, :reserve, :unreserve ]
+  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def index
     @items = if params[:search].present?
                 Item.where("title LIKE ?", "%#{params[:search]}%")
-              else
+    else
                 Item.all
-              end
-  
-    # Sort items alphabetically if the sort parameter is present
-    if params[:sort] == 'newest'
-      @items = @items.order(created_at: :desc)  
-    elsif params[:sort] == 'alphabetical'
-      @items = @items.order(:title)  
     end
-  
+
+    # Sort items alphabetically if the sort parameter is present
+    if params[:sort] == "newest"
+      @items = @items.order(created_at: :desc)
+    elsif params[:sort] == "alphabetical"
+      @items = @items.order(:title)
+    end
+
     # Paginate the items
     @items = @items.page(params[:page]).per(6)
   end
