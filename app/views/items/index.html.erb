@@ -5,10 +5,10 @@
     <%= form_with url: items_path, method: :get, class: 'me-3' do |f| %>
       <div class="input-group">
         <%= f.label :search, "Search by Title:", class: "input-group-text" %>
-        <%= f.text_field :search, class: "form-control", placeholder: "Enter item title" %>
+        <%= f.text_field :search, class: "form-control", placeholder: "Enter item title", value: params[:search] %>
         
         <%= f.label :zipcode, "Zipcode:", class: "input-group-text" %>
-        <%= f.text_field :zipcode, class: "form-control", placeholder: "Enter zipcode" %>
+        <%= f.text_field :zipcode, class: "form-control", placeholder: "Enter zipcode", value: params[:zipcode] %>
     
         <%= f.submit "Search", class: "btn btn-primary" %>
       </div>
@@ -22,7 +22,7 @@
               { prompt: 'Select sorting option', class: 'form-select', onchange: 'this.form.submit();' } 
           %>
           <%= hidden_field_tag :search, params[:search] %>
-          <%= hidden_field_tag :zipcode, params[:zipcode] %> <!-- Add this line to retain the zipcode in the sort request -->
+          <%= hidden_field_tag :zipcode, params[:zipcode] %> 
         </div>
       <% end %>
     </div>
