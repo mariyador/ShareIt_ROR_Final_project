@@ -1,14 +1,28 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy, :my_items, :reserve ]
-  before_action :find_item, only: [ :show, :edit, :update, :destroy, :reserve ]
+  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy, :my_items, :reserve, :unreserve, :show ] # Added :show here
+  before_action :find_item, only: [ :show, :edit, :update, :destroy, :reserve, :unreserve ]
   before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def index
-    if params[:search].present?
-      @items = Item.where("title LIKE ?", "%#{params[:search]}%")
+    @items = if params[:search].present?
+                Item.where("title LIKE ?", "%#{params[:search]}%")
     else
-      @items = Item.all
+                Item.all
     end
+
+    if params[:zipcode].present?
+      @items = @items.where(zipcode: params[:zipcode])
+    end
+
+    # Sort items alphabetically if the sort parameter is present
+    if params[:sort] == "newest"
+      @items = @items.order(created_at: :desc)
+    elsif params[:sort] == "alphabetical"
+      @items = @items.order(:title)
+    end
+
+    # Paginate the items
+    @items = @items.page(params[:page]).per(6)
   end
 
   def my_items
@@ -32,6 +46,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @item.user_id = current_user.id
+
     if @item.save
       redirect_to @item, notice: "Item was successfully created."
     else
@@ -53,8 +68,6 @@ class ItemsController < ApplicationController
   end
 
   def reserve
-    @item = Item.find(params[:id])
-
     if @item.user_id != current_user.id
       if @item.reserved_by.nil?
         @item.update(reserved_by: current_user.id)
@@ -68,8 +81,6 @@ class ItemsController < ApplicationController
   end
 
   def unreserve
-    @item = Item.find(params[:id])
-
     if @item.reserved_by == current_user.id
       @item.update(reserved_by: nil)
       redirect_to reserved_items_items_path, notice: "Reservation canceled successfully."
@@ -82,16 +93,17 @@ class ItemsController < ApplicationController
 
   def find_item
     @item = Item.find(params[:id])
+    @reserved_user = User.find_by(id: @item.reserved_by) if @item.reserved_by.present?
   rescue ActiveRecord::RecordNotFound
     redirect_to items_path, alert: "Item not found."
   end
 
   def item_params
-    params.require(:item).permit(:title, :body, :condition, :location, :image, :user_id, :reserved, :reserved_by, :reference_number, :category, :custom_category)
+    params.require(:item).permit(:title, :body, :condition, :location, :image, :reference_number, :category, :custom_category, :city, :state, :zipcode)
   end
 
   def authorize_user!
-    unless @item.user_id == current_user.id
+    unless @item.user_id == current_user&.id
       redirect_to items_path, alert: "You are not authorized to perform this action."
     end
   end

@@ -1,47 +1,79 @@
 <div class="container my-4">
   <style>
     .img-height {
-      max-height: 33.33vh; /* Set to one-third of the viewport height */
-      width: auto; /* Maintain aspect ratio */
-      height: auto; /* Maintain aspect ratio */
-      object-fit: cover; /* Ensure the image covers the area without distortion */
+      max-height: 33.33vh;
+      width: auto;
+      height: auto;
+      object-fit: cover;
     }
 
     .container {
-      margin-top: 20px; /* Adjust top margin as needed */
+      margin-top: 20px;
     }
 
     .item-details {
-      margin-top: 20px; /* Space between image and details */
+      margin-top: 20px;
+    }
+
+    .creator-info {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #e0e0e0;
+      background-color: #f9f9f9;
+    }
+
+    .reservation-info {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #e0e0e0;
+      background-color: #f1f1f1;
     }
   </style>
-
 
   <% if @item.image.attached? %>
     <div class="row">
       <div class="col-12 d-flex justify-content-center">
-        <%= image_tag @item.image, class: 'img-fluid img-height' %> <!-- Responsive image -->
+        <%= image_tag @item.image, class: 'img-fluid img-height' %>
       </div>
     </div>
   <% else %>
     <p class="text-center">No image available</p>
   <% end %>
 
-
   <div class="item-details">
-  <h1><%= @item.title %></h1>
+    <h1><%= @item.title %></h1>
 
     <p><strong>Description:</strong> <%= @item.body %></p>
     <p><strong>Condition:</strong> <%= @item.condition.humanize %></p>
-    <p><strong>Pick Up Location:</strong> <%= @item.location %></p>
+    <p><strong>Pick Up Location:</strong> <%= @item.city %>, <%= @item.state %> <%= @item.zipcode %></p>
     <p><strong>Category:</strong> <%= @item.category.gsub('_', ' ').titleize %></p>
-
   </div>
 
   <hr>
-  <%= link_to "Edit item", edit_item_path(@item), :class => 'btn btn-warning' %>
-  <%= link_to "Delete item", item_path(@item), 
-   method: :delete, 
-   data: { confirm: "Are you sure?" }, 
-   class: 'btn btn-danger' %>
+
+  <% if current_user && @item.user_id == current_user.id %>
+    <%= link_to "Edit item", edit_item_path(@item), class: 'btn btn-warning' %>
+    <%= link_to "Delete item", item_path(@item), 
+       method: :delete, 
+       data: { confirm: "Are you sure?" }, 
+       class: 'btn btn-danger' %>
+
+    <!-- Show the information about who reserved the item only to the creator -->
+    <% if current_user && @item.user_id == current_user.id && @reserved_user %>
+  <div class="reservation-info">
+    <h3>Item Reserved By:</h3>
+    <p><strong>Name:</strong> <%= @reserved_user.first_name %> <%= @reserved_user.last_name %></p>
+    <p><strong>Email:</strong> <%= mail_to @reserved_user.email, @reserved_user.email %></p>
+  </div>
+<% end %>
+  <% end %>
+
+  <!-- Information about the item creator only if the item is reserved by the current user -->
+  <% if @item.reserved_by?(current_user) %>
+    <div class="creator-info">
+      <h3>Item Created By:</h3>
+      <p><strong>Name:</strong> <%= @item.user.first_name %> <%= @item.user.last_name %></p>
+      <p><strong>Email:</strong> <%= mail_to @item.user.email, @item.user.email %></p>
+    </div>
+  <% end %>
 </div>

@@ -36,6 +36,12 @@ gem "bootsnap", require: false
 
 gem "dotenv-rails", groups: [ :development, :test ]
 
+gem "letter_opener", group: :development
+
+gem "kaminari"
+
+
+
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -60,4 +66,12 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+end
+
+group :development, :test do
+  gem "rspec-rails"
+end
+
+group :test do
+  gem "rails-controller-testing"
 end
