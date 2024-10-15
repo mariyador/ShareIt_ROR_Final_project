@@ -9,7 +9,7 @@ class CreateItems < ActiveRecord::Migration[6.0]
       t.datetime :available_from
       t.datetime :available_until
 
-      t.timestamps 
+      t.timestamps
     end
   end
 end
