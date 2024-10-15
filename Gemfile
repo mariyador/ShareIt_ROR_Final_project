@@ -75,3 +75,5 @@ end
 group :test do
   gem "rails-controller-testing"
 end
+
+gem "rubocop", require: false
