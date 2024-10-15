@@ -1,4 +1,4 @@
-class CreateItems < ActiveRecord::Migration[6.0] # Adjust the version accordingly
+class CreateItems < ActiveRecord::Migration[6.0]
   def change
     create_table :items do |t|
       t.string :title
@@ -9,7 +9,7 @@ class CreateItems < ActiveRecord::Migration[6.0] # Adjust the version accordingl
       t.datetime :available_from
       t.datetime :available_until
 
-      t.timestamps # This automatically adds created_at and updated_at
+      t.timestamps 
     end
   end
 end

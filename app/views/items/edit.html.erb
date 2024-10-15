@@ -20,7 +20,7 @@
             ["Miscellaneous", "miscellaneous"],
             ["Other", "other"]
           ],
-          @item.category # Значение по умолчанию
+          @item.category 
       ), { include_blank: true }, { class: "form-select" } %>
     </div>
 
@@ -38,7 +38,7 @@
       <%= f.label :condition, "Condition", class: "form-label" %>
       <%= f.select :condition, options_for_select(
           [["New", "new"], ["Good", "good"], ["Used", "used"], ["Needs Repair", "needs_repair"]],
-          @item.condition # Значение по умолчанию
+          @item.condition
       ), { include_blank: true }, { class: "form-select" } %>
     </div>
 
